@@ -1,20 +1,32 @@
-import { useState } from "react"
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react"
-import { Link } from "react-router"
+import { useState } from "react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Link } from "react-router"; // Correct import
+import { useLoginMutation } from "@/redux/Features/auth/auth.api";
+import { toast } from "sonner";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Login attempt:", { email, password, rememberMe })
-    // Add your login logic here
-    alert(`Logging in with: ${email}`)
-  }
+  const [login, { error, isLoading }] = useLoginMutation();
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await login({ email, password }).unwrap();
+      console.log("Login successful:", response);
+      toast("user login successfull")
+      alert(`Logged in as: ${email}`);
+      // You can redirect the user or store tokens here
+    } catch (err: any) {
+    
+      console.error("Login failed:", err);
+      alert(err?.data?.message || "Login failed");
+    }
+  };
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Login Form */}
