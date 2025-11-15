@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRegisterMutation } from "@/redux/Features/auth/auth.api";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 
 // ✅ Zod Schema Validation
 const formSchema = z
@@ -39,6 +38,9 @@ const formSchema = z
       }),
 
     confirmPassword: z.string(),
+    agreeToTerms: z.boolean().refine((val) => val === true, {
+      message: "You must agree to the terms and conditions",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -53,7 +55,7 @@ export default function SignUpPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // ✅ Rename mutation function to avoid conflict
-  const [registerUser, { isLoading, error }] = useRegisterMutation();
+  const [registerUser] = useRegisterMutation();
 
   // ✅ React Hook Form setup
   const {
@@ -241,7 +243,7 @@ export default function SignUpPage() {
           <div className="flex items-start gap-1 pt-1">
             <input
               type="checkbox"
-              {...register("agreeToTerms")}
+              {...register("agreeToTerms", { value: false })}
               className="w-4 h-4 mt-0.5 rounded border-gray-300 text-[#f5a623] focus:ring-[#f5a623]"
             />
             <label className="text-xs text-gray-600">
