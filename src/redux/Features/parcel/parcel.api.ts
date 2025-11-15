@@ -7,9 +7,9 @@ export const parcelApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${config.baseUrl}/parcels`,
     prepareHeaders: (headers, { getState }) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const state = getState() as any;
-      const token = (state.auth?.user?.token) || localStorage.getItem('token');
+      const state = getState() as Record<string, unknown>;
+      const authState = state.auth as Record<string, unknown>;
+      const token = (authState?.user as Record<string, unknown>)?.token || localStorage.getItem('token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -21,9 +21,9 @@ export const parcelApi = createApi({
     // Create a new parcel
     createParcel: builder.mutation<IParcelResponse, ICreateParcelInput>({
       query: (data) => ({
-        url: '/create',
+        url: '/create-parcel',
         method: 'POST',
-        body: data,
+        body: { body: data },
       }),
       invalidatesTags: ['Parcel'],
     }),

@@ -1,10 +1,9 @@
 import App from "@/App";
-import SendParcelForms from "@/components/SendParcelForm";
-
 import LoginPage from "@/layout/Login";
 import SignUpPage from "@/layout/Register";
 import About from "@/pages/About";
 import Blog from "@/pages/Blog";
+import SendParcel from "@/pages/SendParcel";
 import Rootlayout from "@/Rootlayout/Rootlayout";
 import { createBrowserRouter } from "react-router";
 
@@ -25,14 +24,12 @@ const router = createBrowserRouter([
         path: "blog",
         Component: Blog,
       },
-     
+      {
+        path: "sendparcel",
+        Component: SendParcel,
+      },
     ],
   },
-
-   {
-        path:"sendparcel",
-        Component:SendParcelForms
-      },
   {
     path: "/signin",
     Component: LoginPage,

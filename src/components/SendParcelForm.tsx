@@ -79,6 +79,9 @@ export default function SendParcelForms({ onSuccess }: SendParcelFormProps) {
         deliveryDate: data.deliveryDate ? new Date(data.deliveryDate).toISOString() : undefined,
       };
 
+      console.log('Sending parcel data:', parcelData);
+      console.log('Parcel data keys:', Object.keys(parcelData));
+
       const result = await createParcel(parcelData).unwrap();
 
       if (result.success) {
@@ -91,8 +94,9 @@ export default function SendParcelForms({ onSuccess }: SendParcelFormProps) {
       }
     } catch (error: unknown) {
       console.error('Error creating parcel:', error);
-      const errorMsg = (error as any)?.data?.message || 'Failed to create parcel. Please try again.';
-      toast.error(errorMsg);
+      const errorData = (error as Record<string, unknown>)?.data;
+      const errorMsg = (errorData as Record<string, unknown>)?.message || 'Failed to create parcel. Please try again.';
+      toast.error(String(errorMsg));
     }
   };
 
