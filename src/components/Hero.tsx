@@ -114,7 +114,7 @@ export default function Hero() {
 
           {/* Action Buttons with enhanced effects */}
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center w-full sm:w-auto opacity-0 animate-[slideUp_0.6s_ease-out_0.35s_forwards]">
-            <Link to="/signup" className="w-full sm:w-auto">
+            <Link to="/sendparcel" className="w-full sm:w-auto">
               <button className="w-full bg-[#F5A623] hover:bg-[#E59512] text-white font-bold px-8 sm:px-10 py-3 sm:py-4 rounded-lg transition-all transform hover:scale-105 hover:shadow-xl hover:shadow-[#F5A623]/50 text-sm sm:text-base">
                 SEND A PARCEL
               </button>
