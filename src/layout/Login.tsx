@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-import { Link } from "react-router"; // Correct import
+import { Link, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 import { useLoginMutation } from "@/redux/Features/auth/auth.api";
+import { setUser } from "@/redux/Features/auth/authSlice";
 import { toast } from "sonner";
 
 export default function LoginPage() {
@@ -10,6 +12,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [login, { error, isLoading }] = useLoginMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,14 +21,38 @@ export default function LoginPage() {
 
     try {
       const response = await login({ email, password }).unwrap();
-      console.log("Login successful:", response);
-      toast("user login successfull")
-      alert(`Logged in as: ${email}`);
-      // You can redirect the user or store tokens here
-    } catch (err: any) {
-    
+      
+      // Extract from response.data - backend wraps in data object
+      const token = response.data?.accessToken;
+      const user = response.data?.user;
+      
+      if (token) {
+        const userData = {
+          token,
+          email: user?.email || email,
+          id: user?.id,
+          name: user?.name,
+        };
+        dispatch(setUser(userData));
+        
+        toast.success("Login successful!");
+        // Wait for Redux to update before redirecting
+        setTimeout(() => {
+          navigate("/sendparcel");
+        }, 500);
+      } else {
+        toast.error("No token received from server");
+      }
+    } catch (err: unknown) {
       console.error("Login failed:", err);
-      alert(err?.data?.message || "Login failed");
+      let errorMsg = "Login failed";
+      if (err && typeof err === 'object' && 'data' in err) {
+        const errData = err as Record<string, unknown>;
+        if (errData.data && typeof errData.data === 'object' && 'message' in errData.data) {
+          errorMsg = String((errData.data as Record<string, unknown>).message);
+        }
+      }
+      toast.error(errorMsg);
     }
   };
   return (
