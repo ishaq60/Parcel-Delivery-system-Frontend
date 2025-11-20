@@ -127,6 +127,13 @@ export default function Header({ isScrolled }: HeaderProps) {
             >
               BLOG
             </Link>
+            <Link
+              to="/dashboard"
+              className="hover:text-[#f5a623] transition-colors font-semibold"
+              style={{ color: "#2c2c2c" }}
+            >
+              DASHBOARD
+            </Link>
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="p-2 rounded hover:bg-[#f5a623] hover:text-[#ffffff] transition-colors border-2"
@@ -199,6 +206,9 @@ export default function Header({ isScrolled }: HeaderProps) {
   </button>
             <Link to="/blog" className="hover:text-[#f5a623]" style={{ color: "#2c2c2c" }}>
               BLOG
+            </Link>
+            <Link to="/dashboard" className="hover:text-[#f5a623] font-semibold" style={{ color: "#2c2c2c" }}>
+              DASHBOARD
             </Link>
             <div className="pt-4 border-t" style={{ borderColor: "#e5e5e5" }}>
               <form onSubmit={handleSearch} className="flex flex-col gap-2">

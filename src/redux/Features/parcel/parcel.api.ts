@@ -46,9 +46,9 @@ export const parcelApi = createApi({
       providesTags: ['Parcel'],
     }),
 
-    // Get receiver's parcels
-    getReceivedParcels: builder.query<IParcelListResponse, { page?: number; limit?: number }>({
-      query: ({ page = 1, limit = 10 }) => `/received?page=${page}&limit=${limit}`,
+    // Get receiver's parcels (incoming parcels)
+    getIncomingParcels: builder.query<IParcelListResponse, { page?: number; limit?: number }>({
+      query: ({ page = 1, limit = 10 }) => `/incoming?page=${page}&limit=${limit}`,
       providesTags: ['Parcel'],
     }),
 
@@ -62,6 +62,16 @@ export const parcelApi = createApi({
     getParcelById: builder.query<IParcelResponse, string>({
       query: (id) => `/${id}`,
       providesTags: ['Parcel'],
+    }),
+
+    // Update parcel (admin)
+    updateParcel: builder.mutation<IParcelResponse, { id: string; data: Partial<ICreateParcelInput> }>({
+      query: ({ id, data }) => ({
+        url: `/${id}`,
+        method: 'PATCH',
+        body: { body: data },
+      }),
+      invalidatesTags: ['Parcel'],
     }),
 
     // Cancel parcel (sender)
@@ -107,9 +117,10 @@ export const {
   useCreateParcelMutation,
   useGetAllParcelsQuery,
   useGetMyParcelsQuery,
-  useGetReceivedParcelsQuery,
+  useGetIncomingParcelsQuery,
   useGetParcelByTrackingIdQuery,
   useGetParcelByIdQuery,
+  useUpdateParcelMutation,
   useCancelParcelMutation,
   useConfirmDeliveryMutation,
   useUpdateParcelStatusMutation,
