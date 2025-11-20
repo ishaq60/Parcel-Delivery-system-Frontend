@@ -4,6 +4,7 @@ import SignUpPage from "@/layout/Register";
 import About from "@/pages/About";
 import Blog from "@/pages/Blog";
 import SendParcel from "@/pages/SendParcel";
+import Dashboard from "@/pages/Dashboard";
 import Rootlayout from "@/Rootlayout/Rootlayout";
 import { createBrowserRouter } from "react-router";
 
@@ -24,11 +25,16 @@ const router = createBrowserRouter([
         path: "blog",
         Component: Blog,
       },
+      // Removed sendparcel from Rootlayout children
       {
-        path: "sendparcel",
-        Component: SendParcel,
+        path: "dashboard",
+        Component: Dashboard,
       },
     ],
+  },
+  {
+    path: "/sendparcel",
+    Component: SendParcel,
   },
   {
     path: "/signin",

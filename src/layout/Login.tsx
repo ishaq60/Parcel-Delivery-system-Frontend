@@ -32,13 +32,14 @@ export default function LoginPage() {
           email: user?.email || email,
           id: user?.id,
           name: user?.name,
+          role: user?.role,
         };
         dispatch(setUser(userData));
         
         toast.success("Login successful!");
         // Wait for Redux to update before redirecting
         setTimeout(() => {
-          navigate("/sendparcel");
+          navigate("/dashboard");
         }, 500);
       } else {
         toast.error("No token received from server");

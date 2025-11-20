@@ -1,8 +1,9 @@
-
-
 import { useState } from "react"
 import { Menu, X, Search } from "lucide-react"
-import { Link } from "react-router"
+import { Link, NavLink } from "react-router"
+import { useSelector, useDispatch } from "react-redux"
+import { logout } from "@/redux/Features/auth/authSlice"
+import type { RootState } from "@/redux/store"
 
 interface HeaderProps {
   isScrolled: boolean
@@ -12,6 +13,9 @@ export default function Header({ isScrolled }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const user = useSelector((state: RootState) => state.auth.user)
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+  const dispatch = useDispatch()
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -59,13 +63,30 @@ export default function Header({ isScrolled }: HeaderProps) {
             +880-1755-390-370
           </span>
         </div>
-        <Link
-          to="/signin"
-          className="px-6 py-2 rounded-full font-bold hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: "#f5a623", color: "#ffffff" }}
-        >
-          SIGN IN
-        </Link>
+        {isAuthenticated && user ? (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#f5a623] flex items-center justify-center font-bold text-white uppercase">
+              {user.name ? user.name[0] : user.email ? user.email[0] : "U"}
+            </div>
+            <div className="flex flex-col text-right">
+              <span className="text-xs font-semibold">{user.email}</span>
+              <button
+                onClick={() => dispatch(logout())}
+                className="text-xs text-[#f5a623] hover:underline mt-1"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        ) : (
+          <Link
+            to="/signin"
+            className="px-6 py-2 rounded-full font-bold hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: "#f5a623", color: "#ffffff" }}
+          >
+            SIGN IN
+          </Link>
+        )}
       </div>
 
       {/* Main Header */}
@@ -75,7 +96,7 @@ export default function Header({ isScrolled }: HeaderProps) {
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 font-bold text-2xl">
+          <NavLink to="/" className="flex items-center gap-2 font-bold text-2xl">
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg"
               style={{ backgroundColor: "#2c2c2c", color: "#ffffff" }}
@@ -83,23 +104,17 @@ export default function Header({ isScrolled }: HeaderProps) {
               P
             </div>
             <span style={{ color: "#f5a623" }}>ARCEL</span>
-          </Link>
+          </NavLink>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-8 items-center">
-            <Link to="/"
-             
-              className="font-bold hover:opacity-80 transition-opacity"
-              style={{ color: "#f5a623" }}
-            >
+            <NavLink to="/" end className={({ isActive }) => `font-bold transition-opacity px-3 py-1 rounded ${isActive ? 'bg-[#f5a623] text-white shadow' : 'text-[#f5a623] hover:opacity-80'}`}>
               HOME
-            </Link>
-            <Link to={"/about"} >
-            <button  className="hover:text-[#f5a623] text-left" style={{ color: "#2c2c2c" }}>
+            </NavLink>
+            <NavLink to="/about" className={({ isActive }) => `hover:text-[#f5a623] text-left px-3 py-1 rounded font-bold ${isActive ? 'bg-[#f5a623] text-white shadow' : 'text-[#2c2c2c]'}`}>
               ABOUT
-            </button>
-            </Link>
-            <button
+            </NavLink>
+            {/* <button
               onClick={() => scrollToSection("tracking")}
               className="hover:text-[#f5a623] transition-colors"
               style={{ color: "#2c2c2c" }}
@@ -119,14 +134,19 @@ export default function Header({ isScrolled }: HeaderProps) {
               style={{ color: "#2c2c2c" }}
             >
               CONTACT
-            </button>
-            <Link
+            </button> */}
+            <NavLink
               to="/blog"
-              className="hover:text-[#f5a623] transition-colors"
-              style={{ color: "#2c2c2c" }}
+              className={({ isActive }) => `hover:text-[#f5a623] transition-colors px-3 py-1 rounded font-bold ${isActive ? 'bg-[#f5a623] text-white shadow' : 'text-[#2c2c2c]'}`}
             >
               BLOG
-            </Link>
+            </NavLink>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) => `hover:text-[#f5a623] transition-colors font-semibold px-3 py-1 rounded ${isActive ? 'bg-[#f5a623] text-white shadow' : 'text-[#2c2c2c]'}`}
+            >
+              DASHBOARD
+            </NavLink>
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="p-2 rounded hover:bg-[#f5a623] hover:text-[#ffffff] transition-colors border-2"
@@ -178,8 +198,8 @@ export default function Header({ isScrolled }: HeaderProps) {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden p-4 flex flex-col gap-4 animate-slide-in-up" style={{ backgroundColor: "#f5f5f5" }}>
-            <button onClick={() => scrollToSection("home")} className="font-bold text-left" style={{ color: "#f5a623" }}>
+          <nav className="md:hidden p-4 flex flex-col gap-4 animate-slide-in-up" >
+            <button onClick={() => scrollToSection("home")} className="font-bold text-left" >
               HOME
             </button>
           <Link to={"/about"} >
@@ -197,9 +217,12 @@ export default function Header({ isScrolled }: HeaderProps) {
             <button onClick={() => scrollToSection("contact")} className="hover:text-[#f5a623] text-left" style={{ color: "#2c2c2c" }}>
               CONTACT
   </button>
-            <Link to="/blog" className="hover:text-[#f5a623]" style={{ color: "#2c2c2c" }}>
+            <NavLink to="/blog" className={({ isActive }) => `hover:text-[#f5a623] ${isActive ? 'text-[#f5a623] underline font-bold' : ''}`} style={{ color: "#2c2c2c" }}>
               BLOG
-            </Link>
+            </NavLink>
+            <NavLink to="/dashboard" className={({ isActive }) => `hover:text-[#f5a623] font-semibold ${isActive ? 'text-[#f5a623] underline font-bold' : ''}`} style={{ color: "#2c2c2c" }}>
+              DASHBOARD
+            </NavLink>
             <div className="pt-4 border-t" style={{ borderColor: "#e5e5e5" }}>
               <form onSubmit={handleSearch} className="flex flex-col gap-2">
                 <input
