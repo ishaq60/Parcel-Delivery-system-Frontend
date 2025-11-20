@@ -25,15 +25,16 @@ const router = createBrowserRouter([
         path: "blog",
         Component: Blog,
       },
-      {
-        path: "sendparcel",
-        Component: SendParcel,
-      },
+      // Removed sendparcel from Rootlayout children
       {
         path: "dashboard",
         Component: Dashboard,
       },
     ],
+  },
+  {
+    path: "/sendparcel",
+    Component: SendParcel,
   },
   {
     path: "/signin",
