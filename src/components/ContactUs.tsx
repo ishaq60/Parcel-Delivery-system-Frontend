@@ -44,9 +44,13 @@ export default function ContactUs() {
 
           <div className="animate-slide-in-right">
             <img
-              src="../../public/assets//world-map-location-pins-logistics.jpg"
+              src="/assets/world-map-location-pins-logistics.jpg"
               alt="World Map"
               className="w-full h-96 rounded-lg shadow-lg object-cover"
+              onError={(e) => {
+                const img = e.target as HTMLImageElement;
+                img.src = "https://images.unsplash.com/photo-1553531088-df7ac01bb0c3?auto=format&fit=crop&w=600&q=80";
+              }}
             />
           </div>
         </div>
