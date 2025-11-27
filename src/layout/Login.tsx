@@ -39,7 +39,7 @@ export default function LoginPage() {
         toast.success("Login successful!");
         // Wait for Redux to update before redirecting
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/");
         }, 500);
       } else {
         toast.error("No token received from server");

@@ -33,7 +33,15 @@ export default function CostCalculator() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Image */}
           <div className="animate-slide-in-left">
-            <img src="../../public/assets/delivery-person-with-packages-professional.jpg" alt="Calculate Cost" className="w-full h-auto rounded-lg" />
+            <img 
+              src="/assets/delivery-person-with-packages-professional.jpg" 
+              alt="Calculate Cost" 
+              className="w-full h-auto rounded-lg shadow-lg" 
+              onError={(e) => {
+                const img = e.target as HTMLImageElement;
+                img.src = "https://images.unsplash.com/photo-1578575437980-ba2b2dd3b9ce?auto=format&fit=crop&w=600&q=80";
+              }}
+            />
           </div>
 
           {/* Form */}

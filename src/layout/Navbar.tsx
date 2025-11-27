@@ -38,41 +38,42 @@ export default function Header({ isScrolled }: HeaderProps) {
 
   return (
     <>
-      {/* Top Bar */}
+      {/* Top Bar - Enhanced */}
       <div
-        className="hidden md:flex px-6 py-3 justify-between items-center text-sm"
+        className="hidden md:flex px-6 py-3 justify-between items-center text-sm backdrop-blur-sm"
         style={{ backgroundColor: "#2c2c2c", color: "#ffffff" }}
       >
         <div className="flex gap-8">
-          <Link to="/sitemap" className="hover:text-[#f5a623] transition-colors">
+          <Link to="/sitemap" className="hover:text-[#f5a623] transition-colors duration-200 hover:translate-x-1">
             SITEMAP
           </Link>
-          <Link to="/privacy" className="text-[#f5a623] font-semibold">
+          <Link to="/privacy" className="font-semibold transition-colors duration-200" style={{color: '#f5a623'}}>
             PRIVACY
           </Link>
           <button
             onClick={() => scrollToSection("pricing")}
-            className="hover:text-[#f5a623] transition-colors cursor-pointer"
+            className="hover:text-[#f5a623] transition-colors duration-200 cursor-pointer hover:translate-x-1"
           >
             PRICING
           </button>
         </div>
-        <div className="flex items-center gap-2">
-          <span>📞 CALL US NOW: </span>
-          <span className="font-bold" style={{ color: "#f5a623" }}>
+        <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:border-[#f5a623]/50 transition-all duration-200">
+          <span>📞</span>
+          <span>CALL US NOW: </span>
+          <span className="font-bold transition-colors duration-200" style={{ color: "#f5a623" }}>
             +880-1755-390-370
           </span>
         </div>
         {isAuthenticated && user ? (
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#f5a623] flex items-center justify-center font-bold text-white uppercase">
+          <div className="flex items-center gap-3 px-3 py-2 rounded-full hover:bg-white/10 transition-all duration-200">
+            <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white uppercase transform transition-transform duration-200 hover:scale-110" style={{backgroundColor: '#f5a623'}}>
               {user.name ? user.name[0] : user.email ? user.email[0] : "U"}
             </div>
             <div className="flex flex-col text-right">
               <span className="text-xs font-semibold">{user.email}</span>
               <button
                 onClick={() => dispatch(logout())}
-                className="text-xs text-[#f5a623] hover:underline mt-1"
+                className="text-xs transition-colors duration-200 hover:text-[#f5a623] mt-0.5"
               >
                 Logout
               </button>
