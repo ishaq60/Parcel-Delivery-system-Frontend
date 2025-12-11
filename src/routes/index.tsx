@@ -5,6 +5,7 @@ import About from "@/pages/About";
 import Blog from "@/pages/Blog";
 import SendParcel from "@/pages/SendParcel";
 import Dashboard from "@/pages/Dashboard";
+import AuthCallback from "@/pages/AuthCallback";
 import Rootlayout from "@/Rootlayout/Rootlayout";
 import { createBrowserRouter } from "react-router";
 
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     Component: LoginPage,
+  },
+  {
+    path: "/auth/callback",
+    Component: AuthCallback,
   },
   {
     path: "/signup",

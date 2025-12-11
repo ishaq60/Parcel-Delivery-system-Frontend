@@ -7,8 +7,22 @@ import type { RootState } from '@/redux/store';
 
 export default function Dashboard() {
   const user = useSelector((state: RootState) => state.auth.user);
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
   console.log("user is",user)
   const userRole = user?.role?.toUpperCase();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center">
+            <div className="w-12 h-12 border-4 border-gray-200 border-t-[#f5a623] rounded-full animate-spin"></div>
+          </div>
+          <p className="mt-4 text-gray-600 font-semibold">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -94,6 +94,14 @@ VITE_BASE_URL=http://localhost:5000/api/v1
 # VITE_BASE_URL=https://parcel-delivery-system-drab.vercel.app/api/v1
 ```
 
+## 🔐 Test Credentials
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@example.com | admin123 |
+| Sender | sender@example.com | sender123 |
+| Receiver | receiver@example.com | receiver123 |
+
 ## 🏗️ Project Structure
 
 ```
