@@ -142,12 +142,14 @@ export default function Header({ isScrolled }: HeaderProps) {
             >
               BLOG
             </NavLink>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) => `hover:text-[#f5a623] transition-colors font-semibold px-3 py-1 rounded ${isActive ? 'bg-[#f5a623] text-white shadow' : 'text-[#2c2c2c]'}`}
-            >
-              DASHBOARD
-            </NavLink>
+            {isAuthenticated && (
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) => `hover:text-[#f5a623] transition-colors font-semibold px-3 py-1 rounded ${isActive ? 'bg-[#f5a623] text-white shadow' : 'text-[#2c2c2c]'}`}
+              >
+                DASHBOARD
+              </NavLink>
+            )}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="p-2 rounded hover:bg-[#f5a623] hover:text-[#ffffff] transition-colors border-2"
@@ -221,9 +223,11 @@ export default function Header({ isScrolled }: HeaderProps) {
             <NavLink to="/blog" className={({ isActive }) => `hover:text-[#f5a623] ${isActive ? 'text-[#f5a623] underline font-bold' : ''}`} style={{ color: "#2c2c2c" }}>
               BLOG
             </NavLink>
-            <NavLink to="/dashboard" className={({ isActive }) => `hover:text-[#f5a623] font-semibold ${isActive ? 'text-[#f5a623] underline font-bold' : ''}`} style={{ color: "#2c2c2c" }}>
-              DASHBOARD
-            </NavLink>
+            {isAuthenticated && (
+              <NavLink to="/dashboard" className={({ isActive }) => `hover:text-[#f5a623] font-semibold ${isActive ? 'text-[#f5a623] underline font-bold' : ''}`} style={{ color: "#2c2c2c" }}>
+                DASHBOARD
+              </NavLink>
+            )}
             <div className="pt-4 border-t" style={{ borderColor: "#e5e5e5" }}>
               <form onSubmit={handleSearch} className="flex flex-col gap-2">
                 <input
